@@ -1,0 +1,27 @@
+{
+  "name": "pluto-core-blog-template",
+  "type": "module",
+  "private": true,
+  "trustedDependencies": [
+    "@parcel/watcher",
+    "@plutocms/pluto",
+    "esbuild",
+    "unrs-resolver",
+    "vue-demi"
+  ],
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@plutocms/pluto": "^0.15.0",
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
