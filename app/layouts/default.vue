@@ -2,12 +2,10 @@
 const siteName = useRuntimeConfig().public.websiteName;
 
 // A signed-in editor sees the 40px admin navbar at the top of every page.
-// Move the site down by its height, so the bar covers nothing. The session
-// is read in the browser only, so wait for the mount: a class that differs
-// from the server HTML on the first render is dropped on hydration.
-const { loggedIn } = usePlutoCmsSession();
-const mounted = useMounted();
-const offset = computed(() => mounted.value && loggedIn.value);
+// Move the site down by its height, so the bar covers nothing. The core
+// rule is false on the server and in the first render, so it causes no
+// hydration mismatch.
+const { visible: offset } = usePlutoAdminBar();
 </script>
 
 <template>
