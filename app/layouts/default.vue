@@ -29,7 +29,7 @@ const { visible: offset } = usePlutoAdminBar();
 
     <footer class="border-default text-muted border-t py-8 text-sm">
       <UContainer>
-        Made with Pluto CMS. Posts are Markdown files in GitHub.
+        Made with Pluto. Posts are Markdown files in GitHub.
       </UContainer>
     </footer>
   </div>
