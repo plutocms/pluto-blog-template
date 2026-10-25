@@ -39,6 +39,7 @@ a GitHub App once per site.
      `http://localhost:3000/api/_pluto/auth/github/callback` too if you want to test sign-in
      locally.
    - **Expire user authorization tokens:** on.
+   - **Request user authorization (OAuth) during installation:** off.
    - **Webhook → Active:** off.
    - **Repository permissions:** *Contents: Read and write*, *Metadata: Read-only*. Nothing
      else.
