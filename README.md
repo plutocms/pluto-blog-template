@@ -99,6 +99,20 @@ post body as sanitized HTML.
 A draft is a file with `status: draft`. The site never shows it, but anyone can read it on
 GitHub when the repository is public. Use a private repository if your drafts must stay private.
 
+## Develop with local layers
+
+To test unpublished changes, clone the Pluto layers side by side in one folder. Then set the
+folder in `.env`:
+
+```bash
+# The folder with your checkouts of the Pluto layers (utils, ui, pluto, ...).
+PLUTO_LOCAL_ROOT=..
+```
+
+The `plutoLayer` helper in `nuxt.config.ts` then uses a local checkout of every layer it finds
+in that folder. It uses the npm packages for the other layers. Set `PLUTO_USE_LOCAL=false` to
+turn local mode off. A production host has no `.env`, so it uses the npm packages.
+
 ## Styling
 
 This app owns the only Tailwind build. Keep these three imports at the start of
