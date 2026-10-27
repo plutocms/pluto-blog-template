@@ -1,12 +1,21 @@
 <script setup lang="ts">
 const route = useRoute();
 
-// One published post. Its body comes as sanitized HTML in `html`. A draft
-// or a missing slug gives a 404.
-const { data: post, error } = await usePlutoCmsItem(
+interface Post {
+  id: string;
+  title: string;
+  html: string;
+  createdAt?: string;
+  publishedAt?: string;
+}
+
+// One published post, from the public API. Its body comes as sanitized HTML
+// in `html`. A draft or a missing slug gives a 404.
+const { data, error } = await usePlutoPublicItem<Post>(
   "post",
   String(route.params.slug),
 );
+const post = computed(() => data.value?.data);
 
 if (error.value) {
   throw createError({ statusCode: 404, statusMessage: "Post not found" });

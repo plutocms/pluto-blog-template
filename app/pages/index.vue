@@ -1,8 +1,19 @@
 <script setup lang="ts">
 useHead({ title: "Blog" });
 
-// The published posts, newest first. Drafts never appear here.
-const { data, error } = await usePlutoCmsList("post", { limit: 20 });
+interface PostSummary {
+  id: string;
+  title: string;
+  excerpt: string;
+  createdAt?: string;
+  publishedAt?: string;
+}
+
+// The published posts, newest first, from the public API
+// (`/api/pluto/v1/content/post`). Drafts never appear here.
+const { data, error } = await usePlutoPublicList<PostSummary>("post", {
+  limit: 20,
+});
 
 function formatDate(value: unknown): string {
   return typeof value === "string"
