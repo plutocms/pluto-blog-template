@@ -14,6 +14,9 @@ if (error.value) {
 
 useHead({ title: () => String(post.value?.title ?? "Post") });
 
+// Shows "Edit Post" in the admin bar for a signed-in editor. Visitors get nothing.
+usePlutoEditLink("post", () => String(route.params.slug));
+
 const date = computed(() => {
   const value = post.value?.publishedAt ?? post.value?.createdAt;
   return typeof value === "string"

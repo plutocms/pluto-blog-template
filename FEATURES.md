@@ -10,3 +10,4 @@ This file lists every implemented feature of this project. See the workspace-lev
   (`app/pages/posts/[slug].vue`), built with `usePlutoCmsList`, `usePlutoCmsItem` and
   `PlutoMarkdown`.
 - Development storage: the local `content/` folder in `nuxt dev` (see `nuxt.config.ts`).
+- Admin bar: "New Post" on every page, and "Edit Post" on the post page (`usePlutoEditLink`).
