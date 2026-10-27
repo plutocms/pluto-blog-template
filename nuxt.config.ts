@@ -24,9 +24,9 @@ export default defineNuxtConfig({
    * The GitHub CMS: posts are Markdown files in a GitHub repository, edited
    * in the admin at /admin. See "Set up the CMS" in README.md. The defaults
    * need no config here: files in the local `content/` folder in
-   * development, GitHub in production, the repo from PLUTO_CMS_REPO (or the
+   * development, GitHub in production, the repo from PLUTO_GITHUB_REPO (or the
    * git `origin` remote in development), the GitHub App from
-   * PLUTO_CMS_APP_SLUG, and the `main` branch. Set `plutoCms` to change them.
+   * PLUTO_GITHUB_APP_SLUG, and the `main` branch. Set `plutoGithub` to change them.
    */
 
   /*
