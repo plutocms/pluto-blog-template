@@ -17,8 +17,13 @@ npm create pluto@latest my-blog -t core-blog
 npm run dev
 ```
 
-Open `http://localhost:3000/admin`. In development you are signed in as a local user, and the
-posts are the files in `content/posts`.
+Open `/admin` on the dev server. In development you are signed in as a local user, and the posts
+are the files in `content/posts`. It works out of the box with local Git: each save in the admin is
+a commit in the local repository of the project (run `git init` first if the project is not a Git
+repository yet). Push when you are ready.
+
+Local Git publishing works in development only. A deployed site publishes through GitHub (see
+below). Support for other Git providers is planned.
 
 ## Go live
 
