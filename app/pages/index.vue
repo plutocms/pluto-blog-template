@@ -24,7 +24,9 @@ function formatDate(value: unknown): string {
 
 <template>
   <UContainer class="py-12">
-    <h1 class="text-highlighted mb-8 text-4xl font-bold tracking-tight">Blog</h1>
+    <h1 class="text-highlighted mb-8 text-4xl font-bold tracking-tight">
+      Blog
+    </h1>
 
     <UAlert
       v-if="error"
