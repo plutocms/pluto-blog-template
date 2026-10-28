@@ -25,6 +25,10 @@ repository yet). Push when you are ready.
 Local Git publishing works in development only. A deployed site publishes through GitHub (see
 below). Support for other Git providers is planned.
 
+The post editor has a Markdown mode with a preview of the site. The preview uses
+`app/components/PlutoPostPreview.vue`, which copies the layout of `app/pages/posts/[slug].vue`.
+When you change the post page, change the preview too.
+
 ## Go live
 
 1. Push the project to a GitHub repository and deploy it (for example to Vercel).
