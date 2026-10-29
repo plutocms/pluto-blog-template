@@ -1,0 +1,31 @@
+{
+  "site": {
+    "nav": {
+      "language": "Language"
+    },
+    "home": {
+      "chip": "Blog",
+      "tagline": "Notes, stories and updates, written in Pluto.",
+      "search": "Search posts",
+      "empty": "No posts yet",
+      "emptyHint": "Open the admin and write the first post.",
+      "noResults": "No posts match “{query}”",
+      "clearSearch": "Clear the search",
+      "loadFailed": "Could not load the posts",
+      "read": "Read the post"
+    },
+    "post": {
+      "back": "All posts",
+      "readingTime": "{minutes} min read"
+    },
+    "footer": {
+      "builtWith": "Built with Pluto"
+    },
+    "error": {
+      "notFound": "Page not found",
+      "notFoundHint": "The page you are looking for does not exist, or it moved.",
+      "generic": "Something went wrong",
+      "home": "Go to the home page"
+    }
+  }
+}
