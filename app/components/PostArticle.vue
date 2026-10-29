@@ -59,7 +59,7 @@ const minutes = computed(() => {
     </header>
 
     <UContainer class="max-w-3xl py-12">
-      <PlutoMarkdown :html="html" tag="div" data-pluto-post-body />
+      <PlutoHtml :html="html" tag="div" data-pluto-post-body />
     </UContainer>
   </article>
 </template>
