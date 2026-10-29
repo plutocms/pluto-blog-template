@@ -26,7 +26,7 @@ useSeoMeta({
   ogType: "article",
 });
 
-usePlutoEditLink("post", slug);
+usePlutoEditLink("post", () => post.value?.id);
 </script>
 
 <template>
