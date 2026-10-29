@@ -1,62 +1,137 @@
 <script setup lang="ts">
-useHead({ title: "Blog" });
+const siteName = useRuntimeConfig().public.websiteName;
+const { t } = usePlutoSiteI18n();
+const route = useRoute();
+const router = useRouter();
+
+useSeoMeta({ title: siteName, description: () => t("site.home.tagline") });
 
 interface PostSummary {
   id: string;
   title: string;
-  excerpt: string;
+  excerpt?: string;
   createdAt?: string;
   publishedAt?: string;
 }
 
-// The published posts, newest first, from the public API
-// (`/api/pluto/v1/content/post`). Drafts never appear here.
-const { data, error } = await usePlutoPublicList<PostSummary>("post", {
-  limit: 20,
+const PAGE_SIZE = 9;
+
+const q = computed(() => String(route.query.q ?? "").trim());
+const page = computed({
+  get: () => Math.max(1, Number(route.query.page) || 1),
+  set: (value: number) =>
+    router.replace({
+      query: { ...route.query, page: value > 1 ? String(value) : undefined },
+    }),
 });
 
-function formatDate(value: unknown): string {
-  return typeof value === "string"
-    ? new Date(value).toLocaleDateString("en", { dateStyle: "long" })
-    : "";
-}
+const search = ref(q.value);
+watchDebounced(
+  search,
+  (value) =>
+    router.replace({
+      query: { q: value.trim() || undefined, page: undefined },
+    }),
+  { debounce: 300 },
+);
+
+const { data, error } = await usePlutoPublicList<PostSummary>("post", () => ({
+  limit: PAGE_SIZE,
+  offset: (page.value - 1) * PAGE_SIZE,
+  sort: "-publishedAt",
+  ...(q.value ? { search: q.value } : {}),
+}));
+
+const posts = computed(() => data.value?.data ?? []);
+const total = computed(() => data.value?.meta.total ?? 0);
 </script>
 
 <template>
-  <UContainer class="py-12">
-    <h1 class="text-highlighted mb-8 text-4xl font-bold tracking-tight">
-      Blog
-    </h1>
+  <div>
+    <section class="pluto-sky border-default border-b">
+      <UContainer class="flex flex-col items-start gap-5 py-16 sm:py-24">
+        <span
+          class="bg-primary/10 text-primary ring-primary/25 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ring"
+        >
+          <UIcon name="i-lucide-feather" class="size-4" />
+          {{ t("site.home.chip") }}
+        </span>
 
-    <UAlert
-      v-if="error"
-      color="error"
-      variant="subtle"
-      title="Could not load the posts"
-      :description="error.statusMessage || error.message"
-    />
+        <h1
+          class="text-highlighted text-5xl font-semibold tracking-tight text-balance sm:text-6xl"
+        >
+          {{ siteName }}
+        </h1>
 
-    <p v-else-if="!data?.data.length" class="text-muted">No posts yet.</p>
-
-    <div v-else class="grid gap-6 sm:grid-cols-2">
-      <UCard
-        v-for="post in data.data"
-        :key="post.id"
-        :ui="{ body: 'flex flex-col gap-2' }"
-      >
-        <p class="text-muted text-sm">
-          {{ formatDate(post.publishedAt ?? post.createdAt) }}
+        <p class="text-muted max-w-xl text-lg text-pretty sm:text-xl">
+          {{ t("site.home.tagline") }}
         </p>
 
-        <NuxtLink
-          :to="`/posts/${post.id}`"
-          class="text-highlighted hover:text-primary text-xl font-semibold"
-        >
-          {{ post.title }}
-        </NuxtLink>
+        <UInput
+          v-model="search"
+          :placeholder="t('site.home.search')"
+          :aria-label="t('site.home.search')"
+          icon="i-lucide-search"
+          size="lg"
+          class="mt-2 w-full max-w-md"
+        />
+      </UContainer>
+    </section>
 
-        <p class="text-toned">{{ post.excerpt }}</p>
-      </UCard>
-    </div>
-  </UContainer>
+    <UContainer class="py-12 sm:py-16">
+      <UAlert
+        v-if="error"
+        :title="t('site.home.loadFailed')"
+        :description="error.statusMessage || error.message"
+        color="error"
+        variant="subtle"
+        icon="i-lucide-circle-alert"
+      />
+
+      <UEmpty
+        v-else-if="!posts.length && q"
+        :title="t('site.home.noResults', { query: q })"
+        :actions="[
+          {
+            label: t('site.home.clearSearch'),
+            color: 'neutral',
+            variant: 'outline',
+            onClick: () => (search = ''),
+          },
+        ]"
+        icon="i-lucide-search-x"
+        variant="naked"
+      />
+
+      <UEmpty
+        v-else-if="!posts.length"
+        :title="t('site.home.empty')"
+        :description="t('site.home.emptyHint')"
+        icon="i-lucide-feather"
+        variant="naked"
+      />
+
+      <template v-else>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <PostCard
+            v-for="post in posts"
+            :key="post.id"
+            :to="`/posts/${post.id}`"
+            :title="post.title"
+            :excerpt="post.excerpt"
+            :published-at="post.publishedAt"
+            :created-at="post.createdAt"
+          />
+        </div>
+
+        <UPagination
+          v-if="total > PAGE_SIZE"
+          v-model:page="page"
+          :total="total"
+          :items-per-page="PAGE_SIZE"
+          class="mt-12 flex justify-center"
+        />
+      </template>
+    </UContainer>
+  </div>
 </template>

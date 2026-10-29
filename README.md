@@ -25,9 +25,27 @@ repository yet). Push when you are ready.
 Local Git publishing works in development only. A deployed site publishes through GitHub (see
 below). Support for other Git providers is planned.
 
-The post editor has a Markdown mode with a preview of the site. The preview uses
-`app/components/PlutoPostPreview.vue`, which copies the layout of `app/pages/posts/[slug].vue`.
-When you change the post page, change the preview too.
+## Make it yours
+
+The site is small on purpose. Every file is a starting point:
+
+| File                             | What it does                                                                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app/app.config.ts`              | The colors (`primary`, `secondary`, `neutral`). Pluto's palette is the default.                                                                                |
+| `app/assets/css/tailwind.css`    | The CSS entry. `#build/pluto-site.css` adds the Pluto look: the fonts, the dark mode and the `pluto-sky` background. Remove that line for a theme of your own. |
+| `app/layouts/default.vue`        | The header (your logo and the site name) and the footer.                                                                                                       |
+| `app/pages/index.vue`            | The home page: the posts, with search and pages.                                                                                                               |
+| `app/components/PostArticle.vue` | One post. The post page and the preview of the post editor both use it, so the preview always looks like the site.                                             |
+| `i18n/locales/*.json`            | The texts of the site (`site.*`), one file per language.                                                                                                       |
+
+The site name comes from `websiteName` in `nuxt.config.ts` (or `NUXT_PUBLIC_WEBSITE_NAME`).
+
+### Languages
+
+The site has its own language, separate from the admin language. The language switch in the
+header shows when there is more than one file in `i18n/locales/`. Use `usePlutoSiteI18n()` in a
+page: `t('site.…')` for text and `d(date, options)` for dates. `plutoI18n.siteLocale` in
+`nuxt.config.ts` sets the language before a visitor picks one.
 
 ## Go live
 

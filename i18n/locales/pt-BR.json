@@ -1,0 +1,31 @@
+{
+  "site": {
+    "nav": {
+      "language": "Idioma"
+    },
+    "home": {
+      "chip": "Blog",
+      "tagline": "Notas, histórias e novidades, escritas no Pluto.",
+      "search": "Buscar posts",
+      "empty": "Nenhum post ainda",
+      "emptyHint": "Abra o admin e escreva o primeiro post.",
+      "noResults": "Nenhum post encontrado para “{query}”",
+      "clearSearch": "Limpar a busca",
+      "loadFailed": "Não foi possível carregar os posts",
+      "read": "Ler o post"
+    },
+    "post": {
+      "back": "Todos os posts",
+      "readingTime": "{minutes} min de leitura"
+    },
+    "footer": {
+      "builtWith": "Feito com Pluto"
+    },
+    "error": {
+      "notFound": "Página não encontrada",
+      "notFoundHint": "A página que você procura não existe ou mudou de lugar.",
+      "generic": "Algo deu errado",
+      "home": "Ir para a página inicial"
+    }
+  }
+}
