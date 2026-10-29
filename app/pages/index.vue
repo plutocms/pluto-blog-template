@@ -7,7 +7,8 @@ const router = useRouter();
 useSeoMeta({ title: siteName, description: () => t("site.home.tagline") });
 
 interface PostSummary {
-  id: string;
+  id: string | number;
+  slug: string;
   title: string;
   excerpt?: string;
   createdAt?: string;
@@ -107,6 +108,13 @@ const total = computed(() => data.value?.meta.total ?? 0);
         v-else-if="!posts.length"
         :title="t('site.home.empty')"
         :description="t('site.home.emptyHint')"
+        :actions="[
+          {
+            label: t('site.home.openAdmin'),
+            to: '/admin',
+            icon: 'i-lucide-pen-line',
+          },
+        ]"
         icon="i-lucide-feather"
         variant="naked"
       />
@@ -116,7 +124,7 @@ const total = computed(() => data.value?.meta.total ?? 0);
           <PostCard
             v-for="post in posts"
             :key="post.id"
-            :to="`/posts/${post.id}`"
+            :to="`/posts/${post.slug}`"
             :title="post.title"
             :excerpt="post.excerpt"
             :published-at="post.publishedAt"

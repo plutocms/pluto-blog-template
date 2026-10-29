@@ -2,6 +2,11 @@
 const siteName = useRuntimeConfig().public.websiteName;
 const { t } = usePlutoSiteI18n();
 
+useHead({
+  titleTemplate: (title) =>
+    title && title !== siteName ? `${title} - ${siteName}` : siteName,
+});
+
 const { visible: offset } = usePlutoAdminBar();
 </script>
 

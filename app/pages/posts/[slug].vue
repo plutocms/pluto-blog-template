@@ -3,7 +3,7 @@ const route = useRoute();
 const slug = computed(() => String(route.params.slug));
 
 interface Post {
-  id: string;
+  id: string | number;
   title: string;
   excerpt?: string;
   html: string;

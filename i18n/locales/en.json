@@ -9,6 +9,7 @@
       "search": "Search posts",
       "empty": "No posts yet",
       "emptyHint": "Open the admin and write the first post.",
+      "openAdmin": "Open the admin",
       "noResults": "No posts match “{query}”",
       "clearSearch": "Clear the search",
       "loadFailed": "Could not load the posts",
