@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// The language of the public site. Each language is named in its own
-// language, so a visitor finds theirs. The choice is kept in the
-// `pluto-site-locale` cookie. With one site language, nothing shows.
 const { t, locale, locales, setLocale } = usePlutoSiteI18n();
 
 function languageName(code: string): string {

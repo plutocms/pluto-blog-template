@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { NuxtError } from "#app";
 
-// The error page (a 404 or a server error). PlutoRoot puts it in the site
-// layout, as for every page.
 const props = defineProps<{ error: NuxtError }>();
 
 const { t } = usePlutoSiteI18n();

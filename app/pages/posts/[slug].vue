@@ -11,8 +11,6 @@ interface Post {
   publishedAt?: string;
 }
 
-// One published post, from the public API. Its body comes as sanitized HTML
-// in `html`. A draft or a missing slug gives a 404 (error.vue).
 const { data, error } = await usePlutoPublicItem<Post>("post", slug);
 const post = computed(() => data.value?.data);
 
@@ -28,7 +26,6 @@ useSeoMeta({
   ogType: "article",
 });
 
-// Shows "Edit Post" in the admin bar for a signed-in editor. Visitors get nothing.
 usePlutoEditLink("post", slug);
 </script>
 

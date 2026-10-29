@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// A post in the list: the date, the title and the excerpt. The whole card is
-// a link to the post.
 const props = defineProps<{
   to: string;
   title: string;

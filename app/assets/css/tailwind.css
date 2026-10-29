@@ -1,9 +1,4 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-/* Every Pluto layer's CSS: the admin theme and the Pluto tokens (the tholin,
-   haze, heart and kuiper colors). */
 @import "#build/pluto.css";
-/* The Pluto site theme: the fonts, the dark mode, the `pluto-sky` background
-   and the `pluto-site-header` offset under the admin bar. Remove this line
-   for a theme of your own. Add your own @theme after these lines. */
 @import "#build/pluto-site.css";

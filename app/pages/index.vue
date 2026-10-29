@@ -16,8 +16,6 @@ interface PostSummary {
 
 const PAGE_SIZE = 9;
 
-// The search and the page live in the URL (`?q=`, `?page=`), so a visitor
-// can share or reload a result.
 const q = computed(() => String(route.query.q ?? "").trim());
 const page = computed({
   get: () => Math.max(1, Number(route.query.page) || 1),
@@ -37,8 +35,6 @@ watchDebounced(
   { debounce: 300 },
 );
 
-// The published posts, newest first, from the public API
-// (`/api/pluto/v1/content/post`). Drafts never appear here.
 const { data, error } = await usePlutoPublicList<PostSummary>("post", () => ({
   limit: PAGE_SIZE,
   offset: (page.value - 1) * PAGE_SIZE,

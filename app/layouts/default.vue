@@ -2,11 +2,6 @@
 const siteName = useRuntimeConfig().public.websiteName;
 const { t } = usePlutoSiteI18n();
 
-// A signed-in editor sees the 40px admin bar at the top of every page. Move
-// the site down by its height, so the bar covers nothing. The core rule is
-// false on the server and in the first render, so it causes no hydration
-// mismatch. The sticky header moves too (`pluto-site-header`, from the Pluto site
-// theme).
 const { visible: offset } = usePlutoAdminBar();
 </script>
 
@@ -19,7 +14,6 @@ const { visible: offset } = usePlutoAdminBar();
       class="pluto-site-header border-default bg-default/75 sticky top-0 z-40 border-b backdrop-blur"
     >
       <UContainer class="flex h-16 items-center justify-between gap-4">
-        <!-- Your logo: replace the planet with your own mark. -->
         <NuxtLink to="/" class="flex min-w-0 items-center gap-2.5">
           <PlutoLogo mark class="size-7 shrink-0" />
           <span
