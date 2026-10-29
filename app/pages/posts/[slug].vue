@@ -1,55 +1,44 @@
 <script setup lang="ts">
 const route = useRoute();
+const slug = computed(() => String(route.params.slug));
 
 interface Post {
   id: string;
   title: string;
+  excerpt?: string;
   html: string;
   createdAt?: string;
   publishedAt?: string;
 }
 
 // One published post, from the public API. Its body comes as sanitized HTML
-// in `html`. A draft or a missing slug gives a 404.
-const { data, error } = await usePlutoPublicItem<Post>(
-  "post",
-  String(route.params.slug),
-);
+// in `html`. A draft or a missing slug gives a 404 (error.vue).
+const { data, error } = await usePlutoPublicItem<Post>("post", slug);
 const post = computed(() => data.value?.data);
 
 if (error.value) {
   throw createError({ statusCode: 404, statusMessage: "Post not found" });
 }
 
-useHead({ title: () => String(post.value?.title ?? "Post") });
+useSeoMeta({
+  title: () => post.value?.title,
+  description: () => post.value?.excerpt,
+  ogTitle: () => post.value?.title,
+  ogDescription: () => post.value?.excerpt,
+  ogType: "article",
+});
 
 // Shows "Edit Post" in the admin bar for a signed-in editor. Visitors get nothing.
-usePlutoEditLink("post", () => String(route.params.slug));
-
-const date = computed(() => {
-  const value = post.value?.publishedAt ?? post.value?.createdAt;
-  return typeof value === "string"
-    ? new Date(value).toLocaleDateString("en", { dateStyle: "long" })
-    : "";
-});
+usePlutoEditLink("post", slug);
 </script>
 
 <template>
-  <UContainer v-if="post" class="py-12">
-    <article class="mx-auto flex max-w-3xl flex-col gap-6">
-      <div class="flex flex-col gap-2">
-        <NuxtLink to="/" class="text-muted hover:text-primary text-sm">
-          ← All posts
-        </NuxtLink>
-
-        <h1 class="text-highlighted text-4xl font-bold tracking-tight">
-          {{ post.title }}
-        </h1>
-
-        <p class="text-muted text-sm">{{ date }}</p>
-      </div>
-
-      <PlutoMarkdown :html="post.html" tag="div" />
-    </article>
-  </UContainer>
+  <PostArticle
+    v-if="post"
+    :title="post.title"
+    :excerpt="post.excerpt"
+    :html="post.html"
+    :published-at="post.publishedAt"
+    :created-at="post.createdAt"
+  />
 </template>
