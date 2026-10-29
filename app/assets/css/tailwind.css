@@ -1,73 +1,9 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 /* Every Pluto layer's CSS: the admin theme and the Pluto tokens (the tholin,
-   haze, heart and kuiper colors). Add this app's own @theme after these lines. */
+   haze, heart and kuiper colors). */
 @import "#build/pluto.css";
-
-/* The fonts of Pluto: Public Sans for the text, Fredoka for the titles.
-   @nuxt/fonts loads them. */
-@theme static {
-  --font-sans: "Public Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fredoka", "Public Sans", ui-sans-serif, sans-serif;
-}
-
-/* The rules below are for the site only. The admin keeps its own theme
-   (`data-pluto-admin`). */
-:root:not([data-pluto-admin]) {
-  --ui-primary: var(--ui-color-primary-600);
-  --ui-secondary: var(--ui-color-secondary-700);
-}
-
-/* Dark mode is deep space: kuiper 950. */
-:root:not([data-pluto-admin]).dark {
-  --ui-primary: var(--ui-color-primary-400);
-  --ui-secondary: var(--ui-color-secondary-400);
-  --ui-bg: var(--ui-color-neutral-950);
-  --ui-bg-muted: var(--ui-color-neutral-900);
-  --ui-bg-elevated: var(--ui-color-neutral-900);
-  --ui-bg-accented: var(--ui-color-neutral-800);
-  --ui-border: var(--ui-color-neutral-800);
-  --ui-border-muted: var(--ui-color-neutral-900);
-}
-
-:root:not([data-pluto-admin]) ::selection {
-  background-color: var(--color-heart-200);
-  color: var(--color-kuiper-950);
-}
-
-/* The sky behind the top of a page: the cream of Pluto's heart and the blue
-   of its haze in light mode, faint glows in space in dark mode. */
-.pluto-sky {
-  background:
-    radial-gradient(
-      60rem 40rem at 85% -10%,
-      var(--color-heart-100),
-      transparent 70%
-    ),
-    radial-gradient(
-      40rem 30rem at 0% 100%,
-      var(--color-haze-50),
-      transparent 70%
-    );
-}
-
-.dark .pluto-sky {
-  background:
-    radial-gradient(
-      60rem 40rem at 85% -10%,
-      color-mix(in oklab, var(--color-haze-900) 45%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      40rem 30rem at 0% 100%,
-      color-mix(in oklab, var(--color-tholin-950) 60%, transparent),
-      transparent 70%
-    );
-}
-
-/* A signed-in editor sees the admin bar at the top of every page. Core sets
-   `data-pluto-admin-bar` on <html> while the bar shows. The sticky header then
-   starts below the bar. */
-:root[data-pluto-admin-bar] .site-header {
-  top: var(--pluto-admin-bar-height);
-}
+/* The Pluto site theme: the fonts, the dark mode, the `pluto-sky` background
+   and the `pluto-site-header` offset under the admin bar. Remove this line
+   for a theme of your own. Add your own @theme after these lines. */
+@import "#build/pluto-site.css";
