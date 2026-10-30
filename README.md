@@ -3,7 +3,7 @@
 A blog on [Pluto](https://pluto.vulmix.dev), with one of two backends:
 
 - **GitHub CMS:** no database. Posts are Markdown files in this repository, and each save in the
-  admin is a commit. The template extends [`@plutocms/pluto`](https://github.com/plutocms/pluto).
+  admin is a commit. The template extends [`@plutocms/core`](https://github.com/plutocms/pluto).
 - **Supabase:** posts in your Supabase database, with image uploads. The template extends
   [`@plutocms/supabase-blog`](https://github.com/plutocms/supabase-blog).
 
