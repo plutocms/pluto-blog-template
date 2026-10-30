@@ -13,6 +13,7 @@ interface PostSummary {
   excerpt?: string;
   createdAt?: string;
   publishedAt?: string;
+  cover?: PlutoPublicMedia | null;
 }
 
 const PAGE_SIZE = 9;
@@ -129,6 +130,7 @@ const total = computed(() => data.value?.meta.total ?? 0);
             :excerpt="post.excerpt"
             :published-at="post.publishedAt"
             :created-at="post.createdAt"
+            :cover="post.cover"
           />
         </div>
 

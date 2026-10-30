@@ -5,6 +5,7 @@ const props = defineProps<{
   html: string;
   publishedAt?: string;
   createdAt?: string;
+  cover?: PlutoPublicMedia | null;
 }>();
 
 const { t, d } = usePlutoSiteI18n();
@@ -57,6 +58,16 @@ const minutes = computed(() => {
         </p>
       </UContainer>
     </header>
+
+    <UContainer v-if="cover" class="max-w-4xl pt-10">
+      <PlutoImage
+        :media="cover"
+        sizes="xs:100vw lg:896px"
+        loading="eager"
+        fetchpriority="high"
+        class="ring-default h-auto w-full rounded-xl ring"
+      />
+    </UContainer>
 
     <UContainer class="max-w-3xl py-12">
       <PlutoHtml :html="html" tag="div" data-pluto-post-body />
