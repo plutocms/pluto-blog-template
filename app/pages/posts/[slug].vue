@@ -32,7 +32,7 @@ useSeoMeta({
     post.value?.cover ? new URL(post.value.cover.url, origin).href : undefined,
 });
 
-usePlutoEditLink("post", slug);
+usePlutoEditLink("post", () => post.value?.id);
 </script>
 
 <template>
