@@ -1,7 +1,5 @@
-import { plutoLayer } from "@plutocms/core/layers";
-
 export default defineNuxtConfig({
-  extends: [plutoLayer("@plutocms/core")],
+  extends: ["@plutocms/core"],
 
   compatibilityDate: "2025-07-15",
 
@@ -18,6 +16,4 @@ export default defineNuxtConfig({
   plutoI18n: {
     siteLocale: "en",
   },
-
-  eslint: false,
 });
