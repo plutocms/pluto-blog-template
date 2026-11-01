@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 
 // The admin item uses the field names of the backend: `publishedAt` in the
-// GitHub CMS, `published_at` in Supabase.
+// Git CMS, `published_at` in Supabase.
 const text = (...values: unknown[]) =>
   values.find((value): value is string => typeof value === "string");
 
