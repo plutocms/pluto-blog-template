@@ -2,7 +2,7 @@
 
 A blog on [Pluto](https://pluto.vulmix.dev), with one of two backends:
 
-- **GitHub CMS:** no database. Posts are Markdown files in this repository, and each save in the
+- **Git CMS:** no database. Posts are Markdown files in this repository, and each save in the
   admin is a commit. The template extends [`@plutocms/core`](https://github.com/plutocms/pluto).
 - **Supabase:** posts in your Supabase database, with image uploads. The template extends
   [`@plutocms/supabase-blog`](https://github.com/plutocms/supabase-blog).
@@ -12,12 +12,12 @@ The pages are the same for both backends.
 ## Create a blog
 
 ```bash
-npm create pluto@latest my-blog -t blog --backend github
+npm create pluto@latest my-blog -t blog --backend git
 npm create pluto@latest my-blog -t blog --backend supabase
 ```
 
 The CLI sets the backend: the layer in `nuxt.config.ts`, the packages, the sample posts in
-`content/` (GitHub CMS only) and the `.env`.
+`content/` (Git CMS only) and the `.env`.
 
 ## Run it
 
@@ -27,7 +27,7 @@ npm run dev
 
 Then open `/admin` on the dev server.
 
-- **GitHub CMS:** in development you are signed in as a local user, and the posts are the files
+- **Git CMS:** in development you are signed in as a local user, and the posts are the files
   in `content/posts`. It works out of the box with local Git: each save in the admin is a commit
   in the local repository of the project (run `git init` first if the project is not a Git
   repository yet). Push when you are ready. Local Git publishing works in development only. A
@@ -61,12 +61,12 @@ page: `t('site.…')` for text and `d(date, options)` for dates. `plutoI18n.site
 
 Push the project to a GitHub repository and deploy it (for example to Vercel). Then:
 
-- **GitHub CMS:** open `/admin/login` on the deployed site and select **Create the GitHub App**.
+- **Git CMS:** open `/admin/login` on the deployed site and select **Create the GitHub App**.
   The page guides you through the rest.
 - **Supabase:** set the values of your `.env` (`SUPABASE_URL`, `SUPABASE_KEY`, `DATABASE_URL`) in
   the settings of your host.
 
-**Docs:** [GitHub CMS in 10 minutes](https://pluto.vulmix.dev/docs/github-cms/quickstart) ·
+**Docs:** [Git CMS in 10 minutes](https://pluto.vulmix.dev/docs/git-cms/quickstart) ·
 [Supabase](https://pluto.vulmix.dev/docs/supabase) · [Blog layer](https://pluto.vulmix.dev/docs/layers/blog)
 
 ## License
