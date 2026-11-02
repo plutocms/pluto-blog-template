@@ -9,6 +9,13 @@ A blog on [Pluto](https://pluto.vulmix.dev), with one of two backends:
 
 The pages are the same for both backends.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fplutocms%2Fpluto-blog-template&project-name=my-blog&repository-name=my-blog)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/plutocms/pluto-blog-template)
+
+A button copies this template to a new repository in your GitHub account, with the Git CMS, and
+deploys it. Then open `/admin/login` on the new site and select **Create the GitHub App**. For
+the Supabase backend, or to start on your computer, use the CLI below.
+
 ## Create a blog
 
 ```bash
@@ -59,7 +66,8 @@ page: `t('site.…')` for text and `d(date, options)` for dates. `plutoI18n.site
 
 ## Go live
 
-Push the project to a GitHub repository and deploy it (for example to Vercel). Then:
+Push the project to a GitHub repository and deploy it (for example to Vercel). With the Git CMS,
+**Settings → Deploy** in the admin links to each host and sets up GitHub Pages. Then:
 
 - **Git CMS:** open `/admin/login` on the deployed site and select **Create the GitHub App**.
   The page guides you through the rest.
