@@ -66,7 +66,7 @@ Push the project to a GitHub repository and deploy it (for example to Vercel). T
 - **Supabase:** set the values of your `.env` (`SUPABASE_URL`, `SUPABASE_KEY`, `DATABASE_URL`) in
   the settings of your host.
 
-**Docs:** [Git CMS in 10 minutes](https://pluto.vulmix.dev/docs/git-cms/quickstart) ·
+**Docs:** [Deploy](https://pluto.vulmix.dev/docs/start-here/deploy) ·
 [Supabase](https://pluto.vulmix.dev/docs/supabase) · [Blog layer](https://pluto.vulmix.dev/docs/layers/blog)
 
 ## License
