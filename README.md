@@ -47,16 +47,21 @@ Then open `/admin` on the dev server.
 The site is small on purpose: Tailwind CSS, a few components, and no UI library. Every file is a
 starting point:
 
-| File                             | What it does                                                                                                |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `app/assets/css/tailwind.css`    | The look: the font, the colors (light and dark), and the post body (`.pluto-prose`).                        |
-| `app/components/SiteNavbar.vue`  | The header: your logo, the site name and the light/dark switch (`ColorModeSwitch.vue`).                     |
-| `app/components/SiteFooter.vue`  | The footer.                                                                                                 |
-| `app/pages/index.vue`            | The home page: the list of posts (`PostListItem.vue`), with search and pages.                               |
-| `app/components/PostArticle.vue` | One post. The post page and the preview of the post editor both use it, so the preview looks like the site. |
-| `public/favicon.svg`             | The icon of the site.                                                                                       |
+| File                                | What it does                                                                                                |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `app/assets/css/tailwind.css`       | The look: the font, the colors (light and dark), and the post body (`.pluto-prose`).                        |
+| `app/components/SiteNavbar.vue`     | The header: your logo, the site name and the light/dark switch (`ColorModeSwitch.vue`).                     |
+| `app/components/SiteFooter.vue`     | The footer.                                                                                                 |
+| `app/pages/index.vue`               | The home page: the list of posts (`PostListItem.vue`), with search and pages.                               |
+| `app/components/PostArticle.vue`    | One post. The post page and the preview of the post editor both use it, so the preview looks like the site. |
+| `app/components/PostNavigation.vue` | The newer and the older post, under a post.                                                                 |
+| `public/favicon.svg`                | The icon of the site.                                                                                       |
 
-The site name comes from `websiteName` in `nuxt.config.ts` (or `NUXT_PUBLIC_WEBSITE_NAME`). The site
+The site name and description come from `websiteName` and `websiteDescription` in `nuxt.config.ts`
+(or `NUXT_PUBLIC_WEBSITE_NAME` and `NUXT_PUBLIC_WEBSITE_DESCRIPTION`). The pages read the posts with
+the [site composables](https://pluto.vulmix.dev/docs/build/public-api#in-a-nuxt-site) of Pluto:
+`usePosts`, `usePost` and `useAdjacentPosts`. An editor also sees a draft on its page, with a
+**Draft** badge. The site
 starts in light mode (`colorMode.preference` in `nuxt.config.ts`). The texts are in English, in the
 files. For a site in more than one language, see
 [Internationalization](https://pluto.vulmix.dev/docs/build/i18n).

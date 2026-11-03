@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ post: PlutoPost }>();
+const props = defineProps<{ post: PlutoPost; draft?: boolean }>();
 
 const date = computed(() => postDate(props.post, "long"));
 
@@ -29,6 +29,12 @@ const minutes = computed(() => {
         <time v-if="date">{{ date }}</time>
         <span v-if="date" aria-hidden="true"> · </span>
         <span>{{ minutes }} min read</span>
+        <span
+          v-if="draft"
+          class="ms-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300"
+        >
+          Draft
+        </span>
       </p>
 
       <h1
