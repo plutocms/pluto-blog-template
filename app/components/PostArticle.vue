@@ -1,24 +1,12 @@
 <script setup lang="ts">
-const props = defineProps<{
-  title: string;
-  excerpt?: string;
-  html: string;
-  publishedAt?: string;
-  createdAt?: string;
-  cover?: PlutoPublicMedia | null;
-}>();
+const props = defineProps<{ post: PlutoPost }>();
 
-const { t, d } = usePlutoSiteI18n();
-
-const date = computed(() => {
-  const value = props.publishedAt || props.createdAt;
-  return value ? d(new Date(value), { dateStyle: "long" }) : "";
-});
+const date = computed(() => postDate(props.post, "long"));
 
 const WORDS_PER_MINUTE = 220;
 
 const minutes = computed(() => {
-  const words = props.html
+  const words = props.post.html
     .replace(/<[^>]+>/g, " ")
     .split(/\s+/)
     .filter(Boolean).length;
@@ -27,50 +15,42 @@ const minutes = computed(() => {
 </script>
 
 <template>
-  <article>
-    <header class="pluto-sky border-default border-b">
-      <UContainer class="max-w-3xl py-12 sm:py-16">
-        <ULink
-          to="/"
-          class="text-muted hover:text-primary mb-8 inline-flex items-center gap-1.5 text-sm"
-        >
-          <UIcon name="i-lucide-arrow-left" class="size-4" />
-          {{ t("site.post.back") }}
-        </ULink>
+  <article class="mx-auto max-w-2xl px-6 pt-6 pb-16">
+    <NuxtLink
+      to="/"
+      class="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-950 dark:hover:text-white"
+    >
+      <Icon name="lucide:arrow-left" class="size-4" />
+      All posts
+    </NuxtLink>
 
-        <p class="text-muted mb-3 flex flex-wrap items-center gap-x-2 text-sm">
-          <time v-if="date">{{ date }}</time>
-          <span v-if="date" aria-hidden="true">·</span>
-          <span>{{ t("site.post.readingTime", { minutes }) }}</span>
-        </p>
+    <header class="mt-8">
+      <p class="text-sm text-zinc-500">
+        <time v-if="date">{{ date }}</time>
+        <span v-if="date" aria-hidden="true"> · </span>
+        <span>{{ minutes }} min read</span>
+      </p>
 
-        <h1
-          class="text-highlighted text-4xl font-semibold text-balance sm:text-5xl"
-        >
-          {{ title }}
-        </h1>
+      <h1
+        class="mt-2 text-3xl font-semibold tracking-tight text-balance text-zinc-950 sm:text-4xl dark:text-white"
+      >
+        {{ post.title }}
+      </h1>
 
-        <p
-          v-if="excerpt"
-          class="text-muted mt-5 text-lg text-pretty sm:text-xl"
-        >
-          {{ excerpt }}
-        </p>
-      </UContainer>
+      <p v-if="post.excerpt" class="mt-4 text-lg text-pretty text-zinc-500">
+        {{ post.excerpt }}
+      </p>
     </header>
 
-    <UContainer v-if="cover" class="max-w-4xl pt-10">
-      <PlutoImage
-        :media="cover"
-        sizes="xs:100vw lg:896px"
-        loading="eager"
-        fetchpriority="high"
-        class="ring-default h-auto w-full rounded-xl ring"
-      />
-    </UContainer>
+    <PlutoImage
+      v-if="post.cover"
+      :media="post.cover"
+      sizes="xs:100vw md:672px"
+      loading="eager"
+      fetchpriority="high"
+      class="mt-10 h-auto w-full rounded-xl"
+    />
 
-    <UContainer class="max-w-3xl py-12">
-      <PlutoHtml :html="html" tag="div" data-pluto-post-body />
-    </UContainer>
+    <PlutoHtml :html="post.html" tag="div" class="mt-10" data-pluto-post-body />
   </article>
 </template>
