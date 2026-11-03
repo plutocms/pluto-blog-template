@@ -16,7 +16,7 @@ const { data, error } = await usePlutoPublicItem<Post>("post", slug);
 const post = computed(() => data.value?.data);
 
 if (error.value) {
-  throw createError({ statusCode: 404, statusMessage: "Post not found" });
+  throw createError({ status: 404, statusText: "Post not found" });
 }
 
 // An absolute URL for the cover in `og:image`.

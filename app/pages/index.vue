@@ -1,10 +1,11 @@
 <script setup lang="ts">
 const siteName = useRuntimeConfig().public.websiteName;
-const { t } = usePlutoSiteI18n();
 const route = useRoute();
 const router = useRouter();
 
-useSeoMeta({ title: siteName, description: () => t("site.home.tagline") });
+const tagline = "Notes, stories and updates.";
+
+useSeoMeta({ title: siteName, description: tagline });
 
 interface PostSummary {
   id: string | number;
@@ -16,16 +17,10 @@ interface PostSummary {
   cover?: PlutoPublicMedia | null;
 }
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 10;
 
 const q = computed(() => String(route.query.q ?? "").trim());
-const page = computed({
-  get: () => Math.max(1, Number(route.query.page) || 1),
-  set: (value: number) =>
-    router.replace({
-      query: { ...route.query, page: value > 1 ? String(value) : undefined },
-    }),
-});
+const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
 const search = ref(q.value);
 watchDebounced(
@@ -46,85 +41,67 @@ const { data, error } = await usePlutoPublicList<PostSummary>("post", () => ({
 
 const posts = computed(() => data.value?.data ?? []);
 const total = computed(() => data.value?.meta.total ?? 0);
+const pages = computed(() => Math.max(1, Math.ceil(total.value / PAGE_SIZE)));
+
+function pageQuery(value: number) {
+  return { ...route.query, page: value > 1 ? String(value) : undefined };
+}
 </script>
 
 <template>
-  <div>
-    <section class="pluto-sky border-default border-b">
-      <UContainer class="flex flex-col items-start gap-5 py-16 sm:py-24">
-        <span
-          class="bg-primary/10 text-primary ring-primary/25 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ring"
-        >
-          <UIcon name="i-lucide-feather" class="size-4" />
-          {{ t("site.home.chip") }}
-        </span>
+  <div class="mx-auto max-w-2xl px-6 pb-16">
+    <section class="pt-6 pb-10">
+      <h1
+        class="text-3xl font-semibold tracking-tight text-zinc-950 sm:text-4xl dark:text-white"
+      >
+        {{ siteName }}
+      </h1>
+      <p class="mt-3 text-lg text-zinc-500">{{ tagline }}</p>
 
-        <h1
-          class="text-highlighted text-5xl font-semibold tracking-tight text-balance sm:text-6xl"
-        >
-          {{ siteName }}
-        </h1>
-
-        <p class="text-muted max-w-xl text-lg text-pretty sm:text-xl">
-          {{ t("site.home.tagline") }}
-        </p>
-
-        <UInput
-          v-model="search"
-          :placeholder="t('site.home.search')"
-          :aria-label="t('site.home.search')"
-          icon="i-lucide-search"
-          size="lg"
-          class="mt-2 w-full max-w-md"
+      <label class="relative mt-8 block">
+        <span class="sr-only">Search posts</span>
+        <Icon
+          name="lucide:search"
+          class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-400"
         />
-      </UContainer>
+        <input
+          v-model="search"
+          type="search"
+          placeholder="Search posts"
+          class="w-full rounded-lg border border-zinc-200 bg-transparent py-2 ps-9 pe-3 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400 dark:border-zinc-800 dark:focus:border-zinc-600"
+        >
+      </label>
     </section>
 
-    <UContainer class="py-12 sm:py-16">
-      <UAlert
-        v-if="error"
-        :title="t('site.home.loadFailed')"
-        :description="error.statusMessage || error.message"
-        color="error"
-        variant="subtle"
-        icon="i-lucide-circle-alert"
-      />
+    <p v-if="error" class="text-red-600 dark:text-red-400">
+      Could not load the posts: {{ error.statusText || error.message }}
+    </p>
 
-      <UEmpty
-        v-else-if="!posts.length && q"
-        :title="t('site.home.noResults', { query: q })"
-        :actions="[
-          {
-            label: t('site.home.clearSearch'),
-            color: 'neutral',
-            variant: 'outline',
-            onClick: () => (search = ''),
-          },
-        ]"
-        icon="i-lucide-search-x"
-        variant="naked"
-      />
+    <p v-else-if="!posts.length && q">
+      No posts match “{{ q }}”.
+      <button
+        type="button"
+        class="underline underline-offset-4"
+        @click="search = ''"
+      >
+        Clear the search
+      </button>
+    </p>
 
-      <UEmpty
-        v-else-if="!posts.length"
-        :title="t('site.home.empty')"
-        :description="t('site.home.emptyHint')"
-        :actions="[
-          {
-            label: t('site.home.openAdmin'),
-            to: '/admin',
-            icon: 'i-lucide-pen-line',
-          },
-        ]"
-        icon="i-lucide-feather"
-        variant="naked"
-      />
+    <p v-else-if="!posts.length">
+      No posts yet.
+      <NuxtLink to="/admin" class="underline underline-offset-4">
+        Open the admin
+      </NuxtLink>
+      and write the first one.
+    </p>
 
-      <template v-else>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <PostCard
-            v-for="post in posts"
-            :key="post.id"
+    <template v-else>
+      <ul
+        class="divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800"
+      >
+        <li v-for="post in posts" :key="post.id">
+          <PostListItem
             :to="`/posts/${post.slug}`"
             :title="post.title"
             :excerpt="post.excerpt"
@@ -132,16 +109,36 @@ const total = computed(() => data.value?.meta.total ?? 0);
             :created-at="post.createdAt"
             :cover="post.cover"
           />
-        </div>
+        </li>
+      </ul>
 
-        <UPagination
-          v-if="total > PAGE_SIZE"
-          v-model:page="page"
-          :total="total"
-          :items-per-page="PAGE_SIZE"
-          class="mt-12 flex justify-center"
-        />
-      </template>
-    </UContainer>
+      <nav
+        v-if="pages > 1"
+        aria-label="Pages"
+        class="mt-8 flex items-center justify-between text-sm"
+      >
+        <NuxtLink
+          v-if="page > 1"
+          :to="{ query: pageQuery(page - 1) }"
+          class="inline-flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white"
+        >
+          <Icon name="lucide:arrow-left" class="size-4" />
+          Newer posts
+        </NuxtLink>
+        <span v-else />
+
+        <span class="text-zinc-500">Page {{ page }} of {{ pages }}</span>
+
+        <NuxtLink
+          v-if="page < pages"
+          :to="{ query: pageQuery(page + 1) }"
+          class="inline-flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white"
+        >
+          Older posts
+          <Icon name="lucide:arrow-right" class="size-4" />
+        </NuxtLink>
+        <span v-else />
+      </nav>
+    </template>
   </div>
 </template>

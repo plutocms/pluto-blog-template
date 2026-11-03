@@ -7,13 +7,20 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/tailwind.css"],
 
+  app: {
+    head: {
+      htmlAttrs: { lang: "en" },
+      link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+    },
+  },
+
+  colorMode: {
+    preference: "light",
+  },
+
   runtimeConfig: {
     public: {
       websiteName: "My Blog",
     },
-  },
-
-  plutoI18n: {
-    siteLocale: "en",
   },
 });
