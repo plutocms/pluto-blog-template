@@ -3,7 +3,7 @@
 // renders with the component of the post page.
 defineProps<{
   contentType: string;
-  item: PlutoPreviewItem<Post>;
+  item: PlutoPreviewItem<PlutoPost>;
 }>();
 </script>
 

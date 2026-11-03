@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ post: Post }>();
+const props = defineProps<{ post: PlutoPost }>();
 
 const date = computed(() => postDate(props.post, "long"));
 

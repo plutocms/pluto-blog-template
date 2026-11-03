@@ -7,11 +7,8 @@ const tagline = "Notes, stories and updates.";
 
 useSeoMeta({ title: siteName, description: tagline });
 
-const PAGE_SIZE = 10;
-
+// The search is in the URL (`?q=`), so a search result can be shared.
 const q = computed(() => String(route.query.q ?? "").trim());
-const page = computed(() => Math.max(1, Number(route.query.page) || 1));
-
 const search = ref(q.value);
 watchDebounced(
   search,
@@ -22,16 +19,8 @@ watchDebounced(
   { debounce: 300 },
 );
 
-const { data, error } = await usePlutoPublicList<PostSummary>("post", () => ({
-  limit: PAGE_SIZE,
-  offset: (page.value - 1) * PAGE_SIZE,
-  sort: "-publishedAt",
-  ...(q.value ? { search: q.value } : {}),
-}));
-
-const posts = computed(() => data.value?.data ?? []);
-const total = computed(() => data.value?.meta.total ?? 0);
-const pages = computed(() => Math.max(1, Math.ceil(total.value / PAGE_SIZE)));
+// The page comes from `?page=` of the URL.
+const { posts, page, pages, error } = await usePosts({ limit: 10, search: q });
 
 function pageQuery(value: number) {
   return { ...route.query, page: value > 1 ? String(value) : undefined };

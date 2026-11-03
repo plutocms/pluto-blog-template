@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ post: PostSummary }>();
+const props = defineProps<{ post: PlutoPostSummary }>();
 
 const date = computed(() => postDate(props.post));
 </script>
