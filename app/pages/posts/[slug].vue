@@ -2,16 +2,6 @@
 const route = useRoute();
 const slug = computed(() => String(route.params.slug));
 
-interface Post {
-  id: string | number;
-  title: string;
-  excerpt?: string;
-  html: string;
-  createdAt?: string;
-  publishedAt?: string;
-  cover?: PlutoPublicMedia | null;
-}
-
 const { data, error } = await usePlutoPublicItem<Post>("post", slug);
 const post = computed(() => data.value?.data);
 
@@ -36,13 +26,5 @@ usePlutoEditLink("post", () => post.value?.id);
 </script>
 
 <template>
-  <PostArticle
-    v-if="post"
-    :title="post.title"
-    :excerpt="post.excerpt"
-    :html="post.html"
-    :published-at="post.publishedAt"
-    :created-at="post.createdAt"
-    :cover="post.cover"
-  />
+  <PostArticle v-if="post" :post="post" />
 </template>

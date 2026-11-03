@@ -7,16 +7,6 @@ const tagline = "Notes, stories and updates.";
 
 useSeoMeta({ title: siteName, description: tagline });
 
-interface PostSummary {
-  id: string | number;
-  slug: string;
-  title: string;
-  excerpt?: string;
-  createdAt?: string;
-  publishedAt?: string;
-  cover?: PlutoPublicMedia | null;
-}
-
 const PAGE_SIZE = 10;
 
 const q = computed(() => String(route.query.q ?? "").trim());
@@ -101,14 +91,7 @@ function pageQuery(value: number) {
         class="divide-y divide-zinc-200 border-y border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800"
       >
         <li v-for="post in posts" :key="post.id">
-          <PostListItem
-            :to="`/posts/${post.slug}`"
-            :title="post.title"
-            :excerpt="post.excerpt"
-            :published-at="post.publishedAt"
-            :created-at="post.createdAt"
-            :cover="post.cover"
-          />
+          <PostListItem :post="post" />
         </li>
       </ul>
 

@@ -1,21 +1,12 @@
 <script setup lang="ts">
-const props = defineProps<{
-  title: string;
-  excerpt?: string;
-  html: string;
-  publishedAt?: string;
-  createdAt?: string;
-  cover?: PlutoPublicMedia | null;
-}>();
+const props = defineProps<{ post: Post }>();
 
-const date = computed(() =>
-  formatPostDate(props.publishedAt || props.createdAt, "long"),
-);
+const date = computed(() => postDate(props.post, "long"));
 
 const WORDS_PER_MINUTE = 220;
 
 const minutes = computed(() => {
-  const words = props.html
+  const words = props.post.html
     .replace(/<[^>]+>/g, " ")
     .split(/\s+/)
     .filter(Boolean).length;
@@ -43,23 +34,23 @@ const minutes = computed(() => {
       <h1
         class="mt-2 text-3xl font-semibold tracking-tight text-balance text-zinc-950 sm:text-4xl dark:text-white"
       >
-        {{ title }}
+        {{ post.title }}
       </h1>
 
-      <p v-if="excerpt" class="mt-4 text-lg text-pretty text-zinc-500">
-        {{ excerpt }}
+      <p v-if="post.excerpt" class="mt-4 text-lg text-pretty text-zinc-500">
+        {{ post.excerpt }}
       </p>
     </header>
 
     <PlutoImage
-      v-if="cover"
-      :media="cover"
+      v-if="post.cover"
+      :media="post.cover"
       sizes="xs:100vw md:672px"
       loading="eager"
       fetchpriority="high"
       class="mt-10 h-auto w-full rounded-xl"
     />
 
-    <PlutoHtml :html="html" tag="div" class="mt-10" data-pluto-post-body />
+    <PlutoHtml :html="post.html" tag="div" class="mt-10" data-pluto-post-body />
   </article>
 </template>
