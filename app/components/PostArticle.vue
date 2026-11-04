@@ -4,16 +4,6 @@ const props = defineProps<{ post: PlutoPost; draft?: boolean }>();
 const date = computed(() =>
   formatPublishedDate(props.post, { dateStyle: "long" }),
 );
-
-const WORDS_PER_MINUTE = 220;
-
-const minutes = computed(() => {
-  const words = props.post.html
-    .replace(/<[^>]+>/g, " ")
-    .split(/\s+/)
-    .filter(Boolean).length;
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
-});
 </script>
 
 <template>
@@ -30,7 +20,7 @@ const minutes = computed(() => {
       <p class="text-sm text-muted">
         <time v-if="date">{{ date }}</time>
         <span v-if="date" aria-hidden="true"> · </span>
-        <span>{{ minutes }} min read</span>
+        <span>{{ readingMinutes(post.html) }} min read</span>
         <span
           v-if="draft"
           class="ms-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-950 dark:text-amber-300"
