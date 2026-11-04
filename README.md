@@ -1,5 +1,10 @@
 # Pluto Blog Template
 
+> [!IMPORTANT]
+> This repository is archived. The template moved to
+> [`plutocms/templates`](https://github.com/plutocms/templates/tree/main/templates/blog), where it
+> gets the updates. Start a new site with `npm create pluto@latest my-site -t blog`.
+
 A blog on [Pluto](https://pluto.vulmix.dev), with one of two backends:
 
 - **Git CMS:** no database. Posts are Markdown files in this repository, and each save in the
