@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const siteName = useRuntimeConfig().public.websiteName;
+const { name: siteName } = usePlutoSite();
 </script>
 
 <template>

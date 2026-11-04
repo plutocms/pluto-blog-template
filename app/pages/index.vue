@@ -1,30 +1,10 @@
 <script setup lang="ts">
-const siteName = useRuntimeConfig().public.websiteName;
-const route = useRoute();
-const router = useRouter();
+const site = usePlutoSite();
 
-const tagline = "Notes, stories and updates.";
-
-useSeoMeta({ title: siteName, description: tagline });
-
-// The search is in the URL (`?q=`), so a search result can be shared.
-const q = computed(() => String(route.query.q ?? "").trim());
-const search = ref(q.value);
-watchDebounced(
-  search,
-  (value) =>
-    router.replace({
-      query: { q: value.trim() || undefined, page: undefined },
-    }),
-  { debounce: 300 },
-);
-
-// The page comes from `?page=` of the URL.
-const { posts, page, pages, error } = await usePosts({ limit: 10, search: q });
-
-function pageQuery(value: number) {
-  return { ...route.query, page: value > 1 ? String(value) : undefined };
-}
+// The search box writes `?q=` of the URL, and the page comes from `?page=`.
+const { posts, search, page, pages, pageLink, error } = await usePosts({
+  limit: 10,
+});
 </script>
 
 <template>
@@ -33,9 +13,9 @@ function pageQuery(value: number) {
       <h1
         class="text-3xl font-semibold tracking-tight text-zinc-950 sm:text-4xl dark:text-white"
       >
-        {{ siteName }}
+        {{ site.name }}
       </h1>
-      <p class="mt-3 text-lg text-zinc-500">{{ tagline }}</p>
+      <p class="mt-3 text-lg text-zinc-500">{{ site.description }}</p>
 
       <label class="relative mt-8 block">
         <span class="sr-only">Search posts</span>
@@ -56,8 +36,8 @@ function pageQuery(value: number) {
       Could not load the posts: {{ error.statusText || error.message }}
     </p>
 
-    <p v-else-if="!posts.length && q">
-      No posts match “{{ q }}”.
+    <p v-else-if="!posts.length && search.trim()">
+      No posts match “{{ search.trim() }}”.
       <button
         type="button"
         class="underline underline-offset-4"
@@ -91,7 +71,7 @@ function pageQuery(value: number) {
       >
         <NuxtLink
           v-if="page > 1"
-          :to="{ query: pageQuery(page - 1) }"
+          :to="pageLink(page - 1)"
           class="inline-flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white"
         >
           <Icon name="lucide:arrow-left" class="size-4" />
@@ -103,7 +83,7 @@ function pageQuery(value: number) {
 
         <NuxtLink
           v-if="page < pages"
-          :to="{ query: pageQuery(page + 1) }"
+          :to="pageLink(page + 1)"
           class="inline-flex items-center gap-1.5 hover:text-zinc-950 dark:hover:text-white"
         >
           Older posts
