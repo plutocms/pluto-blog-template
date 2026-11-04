@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{ post: PlutoPost; draft?: boolean }>();
 
-const date = computed(() => postDate(props.post, "long"));
+const date = computed(() =>
+  formatPublishedDate(props.post, { dateStyle: "long" }),
+);
 
 const WORDS_PER_MINUTE = 220;
 
@@ -18,14 +20,14 @@ const minutes = computed(() => {
   <article class="mx-auto max-w-2xl px-6 pt-6 pb-16">
     <NuxtLink
       to="/"
-      class="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-950 dark:hover:text-white"
+      class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-heading"
     >
       <Icon name="lucide:arrow-left" class="size-4" />
       All posts
     </NuxtLink>
 
     <header class="mt-8">
-      <p class="text-sm text-zinc-500">
+      <p class="text-sm text-muted">
         <time v-if="date">{{ date }}</time>
         <span v-if="date" aria-hidden="true"> · </span>
         <span>{{ minutes }} min read</span>
@@ -38,12 +40,12 @@ const minutes = computed(() => {
       </p>
 
       <h1
-        class="mt-2 text-3xl font-semibold tracking-tight text-balance text-zinc-950 sm:text-4xl dark:text-white"
+        class="mt-2 text-3xl font-semibold tracking-tight text-balance text-heading sm:text-4xl"
       >
         {{ post.title }}
       </h1>
 
-      <p v-if="post.excerpt" class="mt-4 text-lg text-pretty text-zinc-500">
+      <p v-if="post.excerpt" class="mt-4 text-lg text-pretty text-muted">
         {{ post.excerpt }}
       </p>
     </header>
